@@ -13,10 +13,20 @@ class AddItems extends StatefulWidget {
 
 class _AddItems extends State<AddItems> {
   String _scanBarcode = 'Unknown';
+  final myController1 = TextEditingController();
+  final myController2 = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+  }
+
+   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController1.dispose();
+    myController2.dispose();
+    super.dispose();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -45,7 +55,7 @@ class _AddItems extends State<AddItems> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(title: const Text('Barcode scan')),
+            appBar: AppBar(title: const Text('Add Item')),
             body: Builder(builder: (BuildContext context) {
               return Container(
                   alignment: Alignment.center,
@@ -53,19 +63,29 @@ class _AddItems extends State<AddItems> {
                       direction: Axis.vertical,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        CustomForm('Product Name'),
-                        CustomForm('Quantity'),
+                        Text('Product Name'),
+                        TextField(controller: myController1,),
+                        Text('Quantity'),
+                        TextField(controller: myController2,),
+                        Text('Scan result : $_scanBarcode\n',
+                            style: TextStyle(fontSize: 20)),
                         ElevatedButton(
                             onPressed: () => scanBarcodeNormal(),
                             child: Text('Start barcode scan')),
-                        Text('Scan result : $_scanBarcode\n',
-                            style: TextStyle(fontSize: 20)),
+                        
+                        ElevatedButton(
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                              ),
+                            child: Text('Save')),
                         ElevatedButton(
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MyStatefulWidget()),
+                                    builder: (context) => HomeScreen()),
                               );
                             },
                             child: const Text('Cancel')),
