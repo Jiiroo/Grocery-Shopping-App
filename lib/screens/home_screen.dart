@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'scan_barcode.dart';
-import 'home_widget.dart';
-import 'package:main/db/data_base.dart';
-import 'package:main/models/data_manage.dart';
-
-
+import 'package:main/widget/home_widget.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -33,25 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Grocery Shopping List'),
-        actions: <Widget>[
-          // Padding(
-          //     padding: EdgeInsets.only(right: 20.0),
-          //     child: GestureDetector(
-          //       onTap: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(builder: (context) => AddItems()),
-          //         );
-          //       },
-          //       child: Icon(
-          //         Icons.add,
-          //         size: 30.0,
-          //       ),
-          //     )),
-        ],
-      ),
       body: Center(
         child: _pages.elementAt(_selectedIndex),
       ),

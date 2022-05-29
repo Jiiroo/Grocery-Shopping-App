@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:main/db/data_base.dart';
 import 'package:main/models/data_manage.dart';
 
-
-  
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() =>
-      _MyHomePage();
+  State<MyHomePage> createState() => _MyHomePage();
 }
 
 class _MyHomePage extends State<MyHomePage> {
@@ -128,6 +124,16 @@ class _MyHomePage extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Grocery Shopping List'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: 'Add to Shopping List',
+            onPressed: () => _showForm(null),
+          )
+        ],
+      ),
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(),
@@ -158,10 +164,6 @@ class _MyHomePage extends State<MyHomePage> {
                     )),
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => _showForm(null),
-      ),
     );
   }
 }
