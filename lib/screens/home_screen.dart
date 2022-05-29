@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'scan_barcode.dart';
+import 'package:main/screens/about_us.dart';
 import 'package:main/screens/barcode_scanner.dart';
 import 'package:main/widget/home_widget.dart';
-import 'package:main/models/data_manage.dart';
+// import 'package:main/screens/about_us.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,10 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _pages = <Widget>[
     MyHomePage(),
-    Icon(
-      Icons.question_mark,
-      size: 150,
-    ),
+    AboutUs(),
   ];
 
   // void _onItemTapped(int index) {
@@ -83,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.qr_code_scanner_rounded),
+          child: const Icon(Icons.qr_code_scanner_rounded),
           onPressed: () => BarcodeScanner2().scanBarcodeNormal()),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

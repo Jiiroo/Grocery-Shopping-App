@@ -44,12 +44,12 @@ class _MyHomePage extends State<MyHomePage> {
       _productConttoller.text = existingJournal['product'];
       // _quantityController.text = existingJournal['quantity'];
     }
-
+  
     showModalBottomSheet(
         context: context,
         elevation: 5,
         isScrollControlled: true,
-        builder: (_) => Container(
+        builder: (_) => SafeArea(child: Container(
               padding: EdgeInsets.only(
                 top: 15,
                 left: 15,
@@ -92,7 +92,8 @@ class _MyHomePage extends State<MyHomePage> {
                   )
                 ],
               ),
-            ));
+            ),)
+            );
   }
 
 // Insert a new journal to the database
@@ -155,9 +156,9 @@ class _MyHomePage extends State<MyHomePage> {
                   itemCount: _journals.length,
                   itemBuilder: (BuildContext context, index) {
                     return Card(
-                      color: (_journals[index]['status'] == 1
-                          ? Colors.orange[200]
-                          : Color.fromARGB(255, 48, 48, 47)),
+                      color: (_journals[index]['status'] == 0
+                          ? Color.fromARGB(255, 146, 1, 0)
+                          : Color.fromARGB(255, 255, 197, 92)),
                       margin: const EdgeInsets.all(15),
                       child: ListTile(
                           title: Text(_journals[index]['product']),
@@ -177,10 +178,12 @@ class _MyHomePage extends State<MyHomePage> {
                                 ),
                               ],
                             ),
-                          )),
+                          )
+                      ),
                     );
                   },
                 ),
-              ));
+              )
+            );
   }
 }
