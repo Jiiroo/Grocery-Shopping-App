@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'scan_barcode.dart';
-import 'home_widget.dart';
-import 'package:main/db/data_base.dart';
-import 'package:main/models/data_manage.dart';
-
-
-
+import 'package:main/screens/about_us.dart';
+import 'package:main/screens/barcode_scanner.dart';
+import 'package:main/widget/home_widget.dart';
+// import 'package:main/screens/about_us.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,10 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _pages = <Widget>[
     MyHomePage(),
-    Icon(
-      Icons.question_mark,
-      size: 150,
-    ),
+    AboutUs(),
   ];
 
   // void _onItemTapped(int index) {
@@ -33,25 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Grocery Shopping List'),
-        actions: <Widget>[
-          // Padding(
-          //     padding: EdgeInsets.only(right: 20.0),
-          //     child: GestureDetector(
-          //       onTap: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(builder: (context) => AddItems()),
-          //         );
-          //       },
-          //       child: Icon(
-          //         Icons.add,
-          //         size: 30.0,
-          //       ),
-          //     )),
-        ],
-      ),
       body: Center(
         child: _pages.elementAt(_selectedIndex),
       ),
@@ -104,12 +79,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton:
-      FloatingActionButton(child: Icon(Icons.qr_code_scanner_rounded), onPressed: () => ScanSave().startBarcodeScanStream()),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.qr_code_scanner_rounded),
+          onPressed: () => BarcodeScanner2().scanBarcodeNormal()),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
+
+
 
 // class HomeScreen extends StatefulWidget {
 

@@ -6,7 +6,8 @@ class SQLHelper {
     await database.execute("""CREATE TABLE items(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         product TEXT,
-        quantity TEXT
+        barcode TEXT,
+        status BOOL
       )
       """);
   }
@@ -16,7 +17,7 @@ class SQLHelper {
 
   static Future<sql.Database> db() async {
     return sql.openDatabase(
-      'beta_shops.db',
+      'beta_shopssss.db',
       version: 1,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
@@ -25,10 +26,11 @@ class SQLHelper {
   }
 
   // Create new item (journal)
-  static Future<int> createItem(String product, String? quantity) async {
+  static Future<int> createItem(
+      String product, String barcode, bool status) async {
     final db = await SQLHelper.db();
 
-    final data = {'product': product, 'quantity': quantity};
+    final data = {'product': product, 'barcode': barcode, 'status': status};
     final id = await db.insert('items', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     return id;
@@ -48,17 +50,29 @@ class SQLHelper {
   }
 
   // Update an item by id
-  static Future<int> updateItem(
-      int id, String product, String? quantity) async {
+  static Future<int> updateItem(int id, String product) async {
     final db = await SQLHelper.db();
 
     final data = {
       'product': product,
-      'quantity': quantity,
     };
 
     final result =
         await db.update('items', data, where: "id = ?", whereArgs: [id]);
+    return result;
+  }
+
+  // Update status
+  static Future<int> updateStatus(String id, bool status) async {
+    final db = await SQLHelper.db();
+
+    final data = {
+      'status': status,
+    };
+
+    final result =
+        await db.update('items', data, where: "barcode = ?", whereArgs: [id]);
+    print('AAAA $status');
     return result;
   }
 
