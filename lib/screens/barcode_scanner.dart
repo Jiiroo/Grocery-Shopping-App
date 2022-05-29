@@ -10,8 +10,9 @@ class BarcodeScanner2 {
   String scanBarcode = 'Unknown';
 
   // Platform messages are asynchronous, so we initialize in an async method.
-scanBarcodeNormal() async {
+  scanBarcodeNormal() async {
     String barcodeScanRes;
+    bool boolChange;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
@@ -28,14 +29,21 @@ scanBarcodeNormal() async {
 
     final data = await SQLHelper.getItems();
     try {
-    final existing =
-        data.firstWhere((element) => element['barcode'] == scanBarcode);
-    final ahh = existing['product'];
-    print(ahh);
-        }
-     on StateError {
+      final existing =
+          data.firstWhere((element) => element['barcode'] == scanBarcode);
+      final idFind = existing['barcode'];
+      final boolFind = existing['status'];
+      
+      if (boolFind == 1) {
+        boolChange = false;
+      } else {
+        boolChange = true;
+      }
+      print('$boolFind anddddddddd $boolChange');
+      await SQLHelper.updateStatus(idFind, boolChange);
+    } on StateError {
       print('not match');
+      
     }
-    
   }
 }

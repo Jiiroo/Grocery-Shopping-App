@@ -17,7 +17,7 @@ class _MyHomePage extends State<MyHomePage> {
 
   bool _isLoading = true;
   // This function is used to fetch all data from the database
-  void _refreshJournals() async {
+  _refreshJournals() async {
     final data = await SQLHelper.getItems();
     setState(() {
       _journals = data;
@@ -32,7 +32,6 @@ class _MyHomePage extends State<MyHomePage> {
   }
 
   final TextEditingController _productConttoller = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
 
   // This function will be triggered when the floating button is pressed
   // It will also be triggered when you want to update an item
@@ -69,10 +68,6 @@ class _MyHomePage extends State<MyHomePage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: _quantityController,
-                    decoration: const InputDecoration(hintText: 'Quantity'),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -89,12 +84,11 @@ class _MyHomePage extends State<MyHomePage> {
 
                       // Clear the text fields
                       _productConttoller.text = '';
-                      _quantityController.text = '';
 
                       // Close the bottom sheet
                       Navigator.of(context).pop();
                     },
-                    child: Text(id == null ? 'Create New' : 'Update'),
+                    child: Text(id == null ? 'Add Item' : 'Update'),
                   )
                 ],
               ),
@@ -119,12 +113,7 @@ class _MyHomePage extends State<MyHomePage> {
 
   // Update an existing journal
   Future<void> _updateItem(int id) async {
-    await SQLHelper.updateItem(id, _productConttoller.text, 'asad', true);
-    _refreshJournals();
-  }
-
-  Future<void> _updateStatus(int id) async {
-    await SQLHelper.updateItem(id, _productConttoller.text, 'asad', true);
+    await SQLHelper.updateItem(id, _productConttoller.text);
     _refreshJournals();
   }
 
@@ -139,46 +128,59 @@ class _MyHomePage extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Future<Null> _refresh() async {
+      _refreshJournals();
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Grocery Shopping List'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: 'Add to Shopping List',
-            onPressed: () => _showForm(null),
-          )
-        ],
-      ),
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+        appBar: AppBar(
+          title: const Text('Grocery Shopping List'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'Add to Shopping List',
+              onPressed: () => _showForm(null),
             )
-          : ListView.builder(
-              itemCount: _journals.length,
-              itemBuilder: (context, index) => Card(
-                color: Colors.orange[200],
-                margin: const EdgeInsets.all(15),
-                child: ListTile(
-                    title: Text(_journals[index]['product']),
-                    trailing: SizedBox(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () => _showForm(_journals[index]['id']),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () =>
-                                _deleteItem(_journals[index]['id']),
-                          ),
-                        ],
-                      ),
-                    )),
-              ),
-            ),
-    );
+          ],
+        ),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : RefreshIndicator(
+                onRefresh: () async {
+                  _refresh();
+                },
+                child: ListView.builder(
+                  itemCount: _journals.length,
+                  itemBuilder: (BuildContext context, index) {
+                    return Card(
+                      color: (_journals[index]['status'] == 1
+                          ? Colors.orange[200]
+                          : Color.fromARGB(255, 48, 48, 47)),
+                      margin: const EdgeInsets.all(15),
+                      child: ListTile(
+                          title: Text(_journals[index]['product']),
+                          trailing: SizedBox(
+                            width: 100,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () =>
+                                      _showForm(_journals[index]['id']),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () =>
+                                      _deleteItem(_journals[index]['id']),
+                                ),
+                              ],
+                            ),
+                          )),
+                    );
+                  },
+                ),
+              ));
   }
 }
