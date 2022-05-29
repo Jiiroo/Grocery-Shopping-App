@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class ScanSave {
+class Scanner {
   // This widget is the root of your application.
 
-   String scanBarcode = 'Unknown';
+  String scanBarcode = 'Unknown';
 
-  Future<void> startBarcodeScanStream() async {
+  startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
             '#ff6666', 'Finish', true, ScanMode.BARCODE)!
         .listen((barcode) => print(barcode));
   }
+
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> scanBarcodeNormal() async {
+  scanBarcodeNormal() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
@@ -31,8 +32,4 @@ class ScanSave {
     // setState to update our non-existent appearance.
     scanBarcode = barcodeScanRes;
   }
-
-
-
-  }
-
+}

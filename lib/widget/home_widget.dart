@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:main/models/data_manage.dart';
+import 'package:main/screens/scan_barcode.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -28,8 +31,8 @@ class _MyHomePage extends State<MyHomePage> {
     _refreshJournals(); // Loading the diary when the app starts
   }
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _productConttoller = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
 
   // This function will be triggered when the floating button is pressed
   // It will also be triggered when you want to update an item
@@ -39,8 +42,8 @@ class _MyHomePage extends State<MyHomePage> {
       // id != null -> update an existing item
       final existingJournal =
           _journals.firstWhere((element) => element['id'] == id);
-      _titleController.text = existingJournal['product'];
-      _descriptionController.text = existingJournal['quantity'];
+      _productConttoller.text = existingJournal['product'];
+      // _quantityController.text = existingJournal['quantity'];
     }
 
     showModalBottomSheet(
@@ -53,21 +56,21 @@ class _MyHomePage extends State<MyHomePage> {
                 left: 15,
                 right: 15,
                 // this will prevent the soft keyboard from covering the text fields
-                bottom: MediaQuery.of(context).viewInsets.bottom + 120,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 250,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextField(
-                    controller: _titleController,
+                    controller: _productConttoller,
                     decoration: const InputDecoration(hintText: 'Product'),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   TextField(
-                    controller: _descriptionController,
+                    controller: _quantityController,
                     decoration: const InputDecoration(hintText: 'Quantity'),
                   ),
                   const SizedBox(
@@ -85,8 +88,8 @@ class _MyHomePage extends State<MyHomePage> {
                       }
 
                       // Clear the text fields
-                      _titleController.text = '';
-                      _descriptionController.text = '';
+                      _productConttoller.text = '';
+                      _quantityController.text = '';
 
                       // Close the bottom sheet
                       Navigator.of(context).pop();
@@ -100,15 +103,28 @@ class _MyHomePage extends State<MyHomePage> {
 
 // Insert a new journal to the database
   Future<void> _addItem() async {
-    await SQLHelper.createItem(
-        _titleController.text, _descriptionController.text);
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    String barcode = barcodeScanRes;
+    await SQLHelper.createItem(_productConttoller.text, barcode, true);
     _refreshJournals();
   }
 
   // Update an existing journal
   Future<void> _updateItem(int id) async {
-    await SQLHelper.updateItem(
-        id, _titleController.text, _descriptionController.text);
+    await SQLHelper.updateItem(id, _productConttoller.text, 'asad', true);
+    _refreshJournals();
+  }
+
+  Future<void> _updateStatus(int id) async {
+    await SQLHelper.updateItem(id, _productConttoller.text, 'asad', true);
     _refreshJournals();
   }
 
@@ -116,7 +132,7 @@ class _MyHomePage extends State<MyHomePage> {
   void _deleteItem(int id) async {
     await SQLHelper.deleteItem(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Successfully deleted a journal!'),
+      content: Text('Successfully deleted an item!'),
     ));
     _refreshJournals();
   }
@@ -145,7 +161,6 @@ class _MyHomePage extends State<MyHomePage> {
                 margin: const EdgeInsets.all(15),
                 child: ListTile(
                     title: Text(_journals[index]['product']),
-                    subtitle: Text(_journals[index]['quantity']),
                     trailing: SizedBox(
                       width: 100,
                       child: Row(

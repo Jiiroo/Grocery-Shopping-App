@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'scan_barcode.dart';
+import 'package:main/screens/barcode_scanner.dart';
 import 'package:main/widget/home_widget.dart';
-
+import 'package:main/models/data_manage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -81,12 +82,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton:
-      FloatingActionButton(child: Icon(Icons.qr_code_scanner_rounded), onPressed: () => ScanSave().startBarcodeScanStream()),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.qr_code_scanner_rounded),
+          onPressed: () => BarcodeScanner2().scanBarcodeNormal()),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
+
+
 
 // class HomeScreen extends StatefulWidget {
 
