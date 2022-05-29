@@ -9,6 +9,11 @@ class ScanSave {
 
    String scanBarcode = 'Unknown';
 
+  Future<void> startBarcodeScanStream() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+            '#ff6666', 'Finish', true, ScanMode.BARCODE)!
+        .listen((barcode) => print(barcode));
+  }
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
