@@ -1,13 +1,12 @@
-import 'add_items.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'scan_barcode.dart';
 import 'home_widget.dart';
 import 'package:main/db/data_base.dart';
 import 'package:main/models/data_manage.dart';
-import 'package:main/screens/home_edit.dart';
-import 'package:main/screens/home_detail.dart';
-import 'package:main/widget/note_card_widget.dart';
+
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -37,20 +36,20 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Grocery Shopping List'),
         actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddItems()),
-                  );
-                },
-                child: Icon(
-                  Icons.add,
-                  size: 30.0,
-                ),
-              )),
+          // Padding(
+          //     padding: EdgeInsets.only(right: 20.0),
+          //     child: GestureDetector(
+          //       onTap: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(builder: (context) => AddItems()),
+          //         );
+          //       },
+          //       child: Icon(
+          //         Icons.add,
+          //         size: 30.0,
+          //       ),
+          //     )),
         ],
       ),
       body: Center(
@@ -106,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton:
-      FloatingActionButton(child: Icon(Icons.qr_code_scanner_rounded), onPressed: () => ScanSave().scanBarcodeNormal()),
+      FloatingActionButton(child: Icon(Icons.qr_code_scanner_rounded), onPressed: () => ScanSave().startBarcodeScanStream()),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
