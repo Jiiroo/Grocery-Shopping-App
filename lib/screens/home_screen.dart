@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 184, 183, 182),
       body: Center(
         child: _pages.elementAt(_selectedIndex),
       ),
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottomRight: Radius.circular(0),
               topLeft: Radius.circular(30),
               bottomLeft: Radius.circular(0)),
-          color: Color.fromARGB(255, 82, 100, 149),
+          color: const Color.fromARGB(255, 255, 197, 92),
           boxShadow: [
             BoxShadow(
               blurRadius: 20,
@@ -50,15 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
             child: GNav(
-              rippleColor: Colors.grey[300]!,
-              hoverColor: Colors.grey[300]!,
+              rippleColor: const Color.fromARGB(255, 93, 75, 75),
+              hoverColor: const Color.fromARGB(255, 39, 31, 31),
               gap: 1,
-              activeColor: const Color.fromRGBO(53, 93, 58, 1),
+              activeColor: Color.fromARGB(162, 255, 255, 255),
               iconSize: 30,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey[100]!,
-              color: const Color.fromRGBO(238, 236, 223, 1),
+              tabBackgroundColor: const Color.fromARGB(255, 146, 1, 0),
+              color: const Color.fromARGB(255, 0, 0, 0),
               tabs: const [
                 GButton(
                   icon: Icons.home,
@@ -80,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 146, 1, 0),
           child: const Icon(Icons.qr_code_scanner_rounded),
           onPressed: () => BarcodeScanner2().scanBarcodeNormal()),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

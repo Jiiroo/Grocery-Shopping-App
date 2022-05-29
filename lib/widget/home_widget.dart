@@ -46,6 +46,7 @@ class _MyHomePage extends State<MyHomePage> {
     }
   
     showModalBottomSheet(
+        backgroundColor: const Color.fromARGB(255, 255, 197, 92),
         context: context,
         elevation: 5,
         isScrollControlled: true,
@@ -72,6 +73,10 @@ class _MyHomePage extends State<MyHomePage> {
                     height: 20,
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 146, 1, 0),
+                      textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold)),
                     onPressed: () async {
                       // Save new journal
                       if (id == null) {
@@ -102,7 +107,6 @@ class _MyHomePage extends State<MyHomePage> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -134,11 +138,17 @@ class _MyHomePage extends State<MyHomePage> {
     }
 
     return Scaffold(
+        backgroundColor: Color.fromARGB(255, 184, 183, 182),
         appBar: AppBar(
-          title: const Text('Grocery Shopping List'),
+          backgroundColor: const Color.fromARGB(255, 255, 197, 92),
+          title: const Text('Grocery Shopping List', 
+            style: TextStyle(
+              color: Color.fromARGB(255, 11, 11, 11),
+              fontWeight: FontWeight.bold)
+            ),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Icons.add),
+              icon: const Icon(Icons.add_box_outlined, color: Color.fromARGB(255, 0, 0, 0) ,),
               tooltip: 'Add to Shopping List',
               onPressed: () => _showForm(null),
             )
@@ -157,11 +167,14 @@ class _MyHomePage extends State<MyHomePage> {
                   itemBuilder: (BuildContext context, index) {
                     return Card(
                       color: (_journals[index]['status'] == 0
-                          ? Color.fromARGB(255, 146, 1, 0)
+                          ? Colors.red
                           : Color.fromARGB(255, 255, 197, 92)),
                       margin: const EdgeInsets.all(15),
                       child: ListTile(
-                          title: Text(_journals[index]['product']),
+                          title: Text(_journals[index]['product'],
+                          style: const TextStyle(
+                                color: Color.fromARGB(255, 11, 11, 11),
+                                fontWeight: FontWeight.bold)),
                           trailing: SizedBox(
                             width: 100,
                             child: Row(

@@ -72,7 +72,6 @@ class SQLHelper {
 
     final result =
         await db.update('items', data, where: "barcode = ?", whereArgs: [id]);
-    print('AAAA $status');
     return result;
   }
 
