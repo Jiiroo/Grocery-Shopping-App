@@ -141,7 +141,7 @@ class _MyHomePage extends State<MyHomePage> {
         backgroundColor: Color.fromARGB(255, 184, 183, 182),
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 255, 197, 92),
-          title: const Text('Grocery Shopping List', 
+          title: const Text('Shop Lister', 
             style: TextStyle(
               color: Color.fromARGB(255, 11, 11, 11),
               fontWeight: FontWeight.bold)
