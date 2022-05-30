@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:main/models/data_manage.dart';
@@ -17,7 +15,6 @@ class BarcodeScanner2 {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -33,17 +30,16 @@ class BarcodeScanner2 {
           data.firstWhere((element) => element['barcode'] == scanBarcode);
       final idFind = existing['barcode'];
       final boolFind = existing['status'];
-      
+
       if (boolFind == 1) {
         boolChange = false;
       } else {
         boolChange = true;
       }
-      print('$boolFind anddddddddd $boolChange');
+
       await SQLHelper.updateStatus(idFind, boolChange);
     } on StateError {
-      print('not match');
-      
+      print('');
     }
   }
 }
